@@ -61,15 +61,17 @@ class ProductsController extends Controller
           ->withProduct($product);
   }
 
-  public function destroy(Product $product)
+  public function destroy($external_id)
   {
     if (!auth()->user()->can('product-delete')) {
       session()->flash('flash_message_warning', __('You do not have sufficient privileges for this action'));
       return redirect()->back();
     }
 
+    $product = Product::whereExternalId($external_id)->firstOrFail();
     $product->forceDelete();
 
+    session()->flash('flash_message', __('Product successfully deleted'));
     return redirect()->back();
   }
 }

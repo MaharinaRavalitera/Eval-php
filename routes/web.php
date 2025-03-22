@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/creator/{external_id?}', 'ProductsController@productCreator')->name('products.creator');
         Route::post('/{external_id?}', 'ProductsController@update')->name('products.update');
         Route::get('/data', 'ProductsController@allProducts')->name('products.data');
+        Route::delete('/{external_id}', 'ProductsController@destroy')->name('products.destroy');
     });
 
     /**
@@ -155,6 +156,7 @@ Route::group(['middleware' => ['auth']], function () {
      * Invoices
      */
     Route::group(['prefix' => 'invoices'], function () {
+        Route::get('/', 'InvoicesController@index')->name('invoices.index');
         Route::post('/sentinvoice/{external_id}', 'InvoicesController@updateSentStatus')->name('invoice.sent');
         Route::get('/overdue', 'InvoicesController@overdue')->name('invoices.overdue');
         Route::get('/{invoice}', 'InvoicesController@show')->name('invoices.show');

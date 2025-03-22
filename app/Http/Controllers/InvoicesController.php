@@ -43,7 +43,8 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        return view('invoices.index');
+        $invoices = Invoice::with('client')->orderBy('created_at', 'desc')->get();
+        return view('invoices.index', compact('invoices'));
     }
 
     /**

@@ -119,6 +119,9 @@
                 class="fa fa-dollar sidebar-icon"></i><span id="menu-txt">{{ __('Sales') }}</span>
                 <i class="icon ion-md-arrow-dropup arrow-side sidebar-arrow"></i></a>
             <div class="collapse" id="sales">
+            <a href="{{ route('invoices.index')}}" class="list-group-item childlist"> 
+                <i class="bullet-point"><span></span></i> {{ __('All Invoices') }}
+            </a>
             <a href="{{ route('invoices.overdue')}}" class="list-group-item childlist"> 
                 <i class="bullet-point"><span></span></i> {{ __('Overdue') }}
             </a>

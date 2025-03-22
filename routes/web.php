@@ -47,6 +47,13 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::group(['prefix' => 'clients'], function () {
         Route::get('/data', 'ClientsController@anyData')->name('clients.data');
+        Route::get('/create/{client_type}', 'ClientsController@create')->name('clients.create');
+        Route::post('/create/upload/{client_type}', 'ClientsController@upload')->name('clients.upload');
+        Route::patch('/updateassign/{external_id}', 'ClientsController@updateAssign')->name('clients.update.assignee');
+        Route::get('/{external_id}/projects/data', 'ClientsController@projectDataTable')->name('clients.projectDataTable');
+        Route::get('/{external_id}/tasks/data', 'ClientsController@taskDataTable')->name('clients.taskDataTable');
+        Route::get('/{external_id}/leads/data', 'ClientsController@leadDataTable')->name('clients.leadDataTable');
+        Route::get('/{external_id}/invoices/data', 'ClientsController@invoiceDataTable')->name('clients.invoiceDataTable');
         Route::post('/create/cvrapi', 'ClientsController@cvrapiStart');
     });
     Route::resource('clients', 'ClientsController');
@@ -60,6 +67,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{external_id}', 'TasksController@updateAssign')->name('task.update.assignee');
         Route::post('/invoice/{external_id}', 'TasksController@invoice')->name('task.invoice');
         Route::patch('/update-deadline/{external_id}', 'TasksController@updateDeadline')->name('task.update.deadline');
+        Route::post('/update-project/{external_id}', 'TasksController@updateProject')->name('tasks.update.project');
+        Route::get('/create/client/{external_id}', 'TasksController@create')->name('client.task.create');
     });
     Route::resource('tasks', 'TasksController');
 
@@ -72,6 +81,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updateassign/{external_id}', 'LeadsController@updateAssign')->name('lead.update.assignee');
         Route::patch('/updatestatus/{external_id}', 'LeadsController@updateStatus')->name('lead.update.status');
         Route::patch('/updatefollowup/{external_id}', 'LeadsController@updateFollowup')->name('lead.followup');
+        Route::post('/updateassign/{external_id}', 'LeadsController@updateAssign');
+        Route::get('/create/client/{external_id}', 'LeadsController@create')->name('client.lead.create');
     });
     Route::resource('leads', 'LeadsController');
 
@@ -93,6 +104,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::patch('/updatestatus/{external_id}', 'ProjectsController@updateStatus')->name('project.update.status');
         Route::patch('/updateassign/{external_id}', 'ProjectsController@updateAssign')->name('project.update.assignee');
         Route::patch('/update-deadline/{external_id}', 'ProjectsController@updateDeadline')->name('project.update.deadline');
+        Route::get('/create/client/{external_id}', 'ProjectsController@create')->name('project.client.create');
     });
     Route::resource('projects', 'ProjectsController');
 
@@ -164,6 +176,11 @@ Route::group(['middleware' => ['auth']], function () {
      * Documents
      */
     Route::get('/add-documents/{external_id}/{type}', 'DocumentsController@uploadFilesModalView');
+
+    /**
+     * Comments
+     */
+    Route::post('/comments/{type}/{external_id}', 'CommentController@store')->name('comments.create');
 
     /**
      * Appointments

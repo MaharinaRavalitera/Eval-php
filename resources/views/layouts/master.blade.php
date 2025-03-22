@@ -170,6 +170,9 @@
                     <a href="{{ route('integrations.index')}}"
                        class="list-group-item childlist"> <i
                                 class="bullet-point"><span></span></i> {{ __('Integrations') }}</a>
+                    <a href="{{ route('dummy_data.index')}}"
+                       class="list-group-item childlist"> <i
+                                class="bullet-point"><span></span></i> {{ __('Generate Test Data') }}</a>
                 </div>
             @endif
         </div>

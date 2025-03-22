@@ -121,6 +121,10 @@ Route::group(['middleware' => ['auth']], function () {
         // Database management routes
         Route::get('/database', 'DatabaseController@index')->name('settings.database');
         Route::post('/database/truncate', 'DatabaseController@truncate')->name('settings.database.truncate');
+        
+        // Test data generation routes
+        Route::get('/dummy-data', 'DummyDataController@index')->name('dummy_data.index');
+        Route::post('/dummy-data/generate', 'DummyDataController@generateTestData')->name('dummy_data.generate');
     });
 
     /**

@@ -125,6 +125,14 @@ Route::group(['middleware' => ['auth']], function () {
         // Test data generation routes
         Route::get('/dummy-data', 'DummyDataController@index')->name('dummy_data.index');
         Route::post('/dummy-data/generate', 'DummyDataController@generateTestData')->name('dummy_data.generate');
+        
+        // CSV Import routes
+        Route::group(['prefix' => 'csv-import'], function () {
+            Route::get('/', 'CsvImportController@index')->name('csv_import.index');
+            Route::post('/upload', 'CsvImportController@upload')->name('csv_import.upload');
+            Route::get('/map', 'CsvImportController@map')->name('csv_import.map');
+            Route::post('/process', 'CsvImportController@process')->name('csv_import.process');
+        });
     });
 
     /**

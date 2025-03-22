@@ -292,7 +292,21 @@ class ClientsController extends Controller
     public function show($external_id)
     {
         $client = $this->findByExternalId($external_id);
-        //dd($client->appointments);
+        
+        // Récupérer le contact primaire ou en créer un si nécessaire
+        $contact = $client->primaryContact;
+        if (!$contact) {
+            $contact = Contact::create([
+                'external_id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'name' => $client->company_name ? $client->company_name . ' (Contact)' : 'Contact',
+                'email' => $client->email ?? '',
+                'primary_number' => $client->primary_number ?? '',
+                'secondary_number' => $client->secondary_number ?? '',
+                'client_id' => $client->id,
+                'is_primary' => true
+            ]);
+        }
+        
         return view('clients.show')
             ->withClient($client)
             ->withCompanyname(Setting::first()->company)
@@ -302,6 +316,7 @@ class ClientsController extends Controller
             ->with('documents', $client->documents()->where('integration_type', get_class(GetStorageProvider::getStorage()))->get())
             ->with('lead_statuses', Status::typeOfLead()->get())
             ->with('task_statuses', Status::typeOfTask()->get())
+            ->with('contact_info', $contact)
             ->withRecentAppointments($client->appointments()->orderBy('start_at', 'desc')->where('end_at', '>', now()->subMonths(3))->limit(7)->get());
     }
 
@@ -315,6 +330,20 @@ class ClientsController extends Controller
     {
         $client = $this->findByExternalId($external_id);
         $contact = $client->primaryContact;
+        
+        // Si aucun contact primaire n'existe, en créer un
+        if (!$contact) {
+            $contact = Contact::create([
+                'external_id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'name' => $client->company_name ? $client->company_name . ' (Contact)' : 'Contact',
+                'email' => $client->email ?? '',
+                'primary_number' => $client->primary_number ?? '',
+                'secondary_number' => $client->secondary_number ?? '',
+                'client_id' => $client->id,
+                'is_primary' => true
+            ]);
+        }
+        
         $client = (object)array_merge($contact->toArray(), $client->toArray());
 
         return view('clients.edit')

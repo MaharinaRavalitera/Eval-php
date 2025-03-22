@@ -173,6 +173,9 @@
                     <a href="{{ route('dummy_data.index')}}"
                        class="list-group-item childlist"> <i
                                 class="bullet-point"><span></span></i> {{ __('Generate Test Data') }}</a>
+                    <a href="{{ route('csv_import.index')}}"
+                       class="list-group-item childlist"> <i
+                                class="bullet-point"><span></span></i> {{ __('Import CSV Data') }}</a>
                 </div>
             @endif
         </div>

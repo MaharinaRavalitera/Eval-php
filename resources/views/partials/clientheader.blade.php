@@ -13,29 +13,34 @@
             </p>
             <!--Client info leftside-->
             <div class="contactleft">
+                @if(isset($contact_info) && $contact_info)
                 <p class="client-name-text"  aria-hidden="true" data-toggle="tooltip"
                    title="{{ __('Contact person name') }}" data-placement="left"> {{$contact_info->name}}</p>
-            @if($contact_info->email != "")
+                @if($contact_info->email != "")
                 <!--MAIL-->
                     <p class="contact-paragraph">
                         <a href="mailto:{{$contact_info->email}}"  aria-hidden="true" data-toggle="tooltip"
                            title="{{ __('Email') }}" data-placement="left">{{$contact_info->email}}</a></p>
-            @endif
-            @if($contact_info->primary_number != "")
+                @endif
+                @if($contact_info->primary_number != "")
                 <!--Work Phone-->
                     <p class="contact-paragraph">
                         <a href="tel:{{$contact_info->primary_number}}"  aria-hidden="true" data-toggle="tooltip"
                            title="{{ __('Primary number') }}" data-placement="left">{{$contact_info->primary_number}}</a>
-            @endif
-            @if($contact_info->primary_number != "" && $contact_info->secondary_number != "")
+                @endif
+                @if($contact_info->primary_number != "" && $contact_info->secondary_number != "")
                 /
-            @endif
-            @if($contact_info->secondary_number != "")
+                @endif
+                @if($contact_info->secondary_number != "")
                 <!--Secondary Phone-->
                         <a href="tel:{{$contact_info->secondary_number}}"  aria-hidden="true" data-toggle="tooltip"
                            title="{{ __('Secondary number') }}" data-placement="left">{{$contact_info->secondary_number}}</a>
                     </p>
-            @endif
+                @endif
+                @else
+                <p class="client-name-text"  aria-hidden="true" data-toggle="tooltip"
+                   title="{{ __('Company name') }}" data-placement="left"> {{$client->company_name}}</p>
+                @endif
             </div>
 
             <!--Client info leftside END-->
